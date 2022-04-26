@@ -14,7 +14,7 @@ public class BookMain {
 		BookService service = (BookService) ctx.getBean("service");
 		
 		// 자바코드
-//		BookService service = new BookServiceImpl();
+//		BookService service  = new BookServiceImpl();
 //		List<BookDTO> list = service.getList();
 	
 //		// 도서 정보 삽입
