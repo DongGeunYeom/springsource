@@ -25,7 +25,7 @@
 	<div>
 		<label for="age">age</label>
 		<input type="text" name="age" id="age" />
-	</div>
+	</div> 
 	<div>
 		<button type="submit">전송</button>
 	</div>

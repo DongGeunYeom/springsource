@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,8 +32,11 @@ public class SampleController {
 	
 	@GetMapping("/basic")
 //	@RequestMapping("/basic") // http://localhost:9090/sample/basic
-	public void basic() {
+	public void basic(@ModelAttribute("page")int page, Model model) {
 		log.info("basic..."); // WEB-INF/views/sample/basic.jsp
+		
+		// page 변수값을 jsp에 보여주기 : Model
+		// model.addAttribute("page", page);
 	}
 	
 	// @RequestMapping("/login") : GET + POST 둘 다 허용
@@ -46,7 +51,7 @@ public class SampleController {
 	
 	// Controller 파라미터 수집
 	// 1) 변수명 사용
-	// 2) ~userDto 객체 사용
+	// 2) ~DTO 객체 사용(jsp 에서 값이 유지됨)
 	// 3) HttpServletRequest 객체 사용(필요할 경우만-대부분 사용 잘 안 함)
 	
 	// @RequestParam("이름) : 파라미터로 사용된 변수의 이름과 전달되는 파라미터의 이름이 다른 경우 사용
