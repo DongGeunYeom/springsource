@@ -8,7 +8,7 @@
 		<div class="form-group col-md-6">
 			<select name="criteria" id="criteria" class="form-control">
 				<option value="code">code</option>
-				<option value="wirter">writer</option>
+				<option value="writer">writer</option>
 			</select>
 		</div>
 		<div class="form-group col-md-6">
@@ -22,4 +22,5 @@
 		</div>
 	</div>
 </form>
+<script src="/resources/js/search.js"></script>
 <%@ include file="../layout/footer.jsp" %>

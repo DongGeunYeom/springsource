@@ -93,4 +93,20 @@ public class BookController {
 		}
 		return "redirect:/book/update";
 	}
+	
+	@GetMapping("/search")
+	public void searchGet() {
+		log.info("search.jsp 요청");
+	}
+	
+	@PostMapping("/search")
+	public String searchPost(String criteria, String keyword, Model model) {
+		log.info("service.search 요청"+criteria+" "+keyword);
+		List<BookDTO> list = service.getSearchList(criteria, keyword);
+		
+		model.addAttribute("list", list);
+		
+		return "book/list"; // WEB-INF/views/book/list.jsp
+		// return "redirect:/book/list"; // 컨트롤러 get(/book/list)가기
+	}
 }
