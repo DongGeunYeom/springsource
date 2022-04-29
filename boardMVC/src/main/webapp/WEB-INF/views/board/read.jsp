@@ -20,19 +20,19 @@
                 			<form action="" role="form">
                 				<div class="form-group">
                 					<label>Bno</label>
-                					<input class="form-control" name="bno" readonly="readonly">                				
+                					<input class="form-control" name="bno" value="${dto.bno}" readonly="readonly">                				
                 				</div> 
                 				<div class="form-group">
                 					<label>Title</label>
-                					<input class="form-control" name="title" readonly="readonly">                				
+                					<input class="form-control" name="title" value="${dto.title}" readonly="readonly">                				
                 				</div>  
                 				<div class="form-group">
                 					<label>Content</label>
-                					<textarea class="form-control" rows="3" name="content" readonly="readonly"></textarea>               				
+                					<textarea class="form-control" rows="3" name="content" readonly="readonly">${dto.content}</textarea>               				
                 				</div> 
                 				<div class="form-group">
                 					<label>Writer</label>
-                					<input class="form-control" name="writer" readonly="readonly">                				
+                					<input class="form-control" name="writer" value="${dto.writer}" readonly="readonly">                				
                 				</div>  
                 				<button type="button" class="btn btn-default">Modify</button>     			
                 				<button type="reset" class="btn btn-info">List</button>          			
@@ -40,5 +40,9 @@
                 		</div>
                 	</div>
                 </div>
-            </div>           
+            </div>   
+<form action="/board/modify" id="operForm">
+	<input type="hidden" value="${dto.bno}" name="bno" />
+</form>
+<script src="/resources/js/read.js"></script>                    
 <%@include file="../includes/footer.jsp" %>       
