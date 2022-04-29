@@ -15,7 +15,6 @@ pageEncoding="UTF-8"%>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.js"></script>
     <!-- validation 사용자 작성 코드 삽입-->
-    <script src="/resources/js/jquery-3.6.0.min.js"></script>
 	<script src="/resources/js/register.js"></script>
   </head>
   <body style="background-color: #f5f5f5">

@@ -4,7 +4,7 @@
  */
 
 $(function (){
-  $("#modifyform").validate({
+  $("#changePwd").validate({
     // rules 정하기 - 유효성 검증 규칙 지정
     // 폼 요소 이름 사용
     rules: {

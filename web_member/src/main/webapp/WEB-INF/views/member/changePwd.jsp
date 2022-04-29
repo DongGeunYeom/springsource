@@ -21,7 +21,7 @@ pageEncoding="UTF-8"%>
     <div class="card border-success mb-3 mx-auto" style="max-width: 25rem;">
       <div class="card-header">비밀번호 변경</div>
       <div class="card-body">
-        <form id="modifyform" method="post">
+        <form id="changePwd" method="post">
           <div class="form-group row">
             <input
               type="password"
@@ -61,17 +61,18 @@ pageEncoding="UTF-8"%>
             </button>
           </div>
         </form>
+      </div>
+    </div>
 <script src="/resources/js/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
 <script src="/resources/js/modify.js"></script>
 <script>
 $(function(){
 	let error = '${error}';
-	/* if(error!=''){
-		alert(error);
-	} */
+	if(error!=''){
+		alert(error); 
+	} 
 }) 
-</script> 
-      </div>
-    </div>
+</script>      
   </body>
 </html>
