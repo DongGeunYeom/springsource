@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.study.dto.SampleDTO;
@@ -100,7 +101,7 @@ public class BasicController {
 	
 	// @RequestBody : JSON 데이터를 서버로 가져올 때 원하는 타입의 객체로 변환
 	@PostMapping("/test1")
-	public void test1(SampleDTO dto) {
+	public void test1(@RequestBody SampleDTO dto) {
 		log.info("json 데이터 가져오기 "+dto);
 	}
 
