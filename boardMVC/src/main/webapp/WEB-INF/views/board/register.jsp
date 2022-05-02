@@ -30,6 +30,10 @@
                 					<label>Writer</label>
                 					<input class="form-control" name="writer">                				
                 				</div>  
+                				<input type="hidden" name="pageNum" value="1" />
+								<input type="hidden" name="amount" value="${cri.amount}" />
+								<input type="hidden" name="type" value="${cri.type}" />
+								<input type="hidden" name="keyword" value="${cri.keyword}" />
                 				<button type="submit" class="btn btn-default">Submit</button>              			
                 				<button type="reset" class="btn btn-default">reset</button>              			
                 			</form>

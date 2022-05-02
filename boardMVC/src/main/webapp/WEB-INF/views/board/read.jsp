@@ -41,8 +41,13 @@
                 	</div>
                 </div>
             </div>   
+<%-- modify / list 버튼 클릭시 이동할 폼 --%>
 <form action="/board/modify" id="operForm">
-	<input type="hidden" value="${dto.bno}" name="bno" />
+	<input type="hidden" name="bno" value="${dto.bno}" />
+	<input type="hidden" name="pageNum" value="${cri.pageNum}" />
+	<input type="hidden" name="amount" value="${cri.amount}" />
+	<input type="hidden" name="type" value="${cri.type}" />
+	<input type="hidden" name="keyword" value="${cri.keyword}" />
 </form>
 <script src="/resources/js/read.js"></script>                    
 <%@include file="../includes/footer.jsp" %>       
