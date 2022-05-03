@@ -31,7 +31,7 @@
                 					<input class="form-control" name="writer">                				
                 				</div>  
                 				<input type="hidden" name="pageNum" value="1" />
-								<input type="hidden" name="amount" value="${cri.amount}" />
+								<input type="hidden" name="amount" value="10" />
 								<input type="hidden" name="type" value="${cri.type}" />
 								<input type="hidden" name="keyword" value="${cri.keyword}" />
                 				<button type="submit" class="btn btn-default">Submit</button>              			

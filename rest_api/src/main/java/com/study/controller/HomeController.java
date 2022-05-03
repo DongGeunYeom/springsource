@@ -31,16 +31,19 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
-		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
-		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
+		logger.info("Welcome home!");
 		
 		return "home";
+	}
+	
+	@GetMapping("/member/step2")
+	public void step2() {
+		logger.info("회원가입 요청");
+	}
+	
+	@GetMapping("/member/changePwd")
+	public void change() {
+		logger.info("비밀번호 변경 요청");
 	}
 	
 	@ResponseBody // jsp 찾지마
