@@ -86,3 +86,8 @@ alter table spring_reply add constraint pk_reply primary key(rno);
 -- 외래키 제약
 alter table spring_reply add constraint fk_reply_board foreign key(bno)
 references spring_board(bno);
+
+select * from spring_reply order by bno desc, rno asc;
+
+-- 인덱스 생성
+create index idx_reply on spring_reply(bno desc, rno asc);
