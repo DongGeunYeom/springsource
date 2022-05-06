@@ -115,6 +115,10 @@ $(function(){
 	
 	// 댓글 리스트 영역 가져오기
 	let replyUl = $(".chat");
+	// 댓글 페이지 영역
+	let pageFooter = $(".panel-footer");
+	// 현재 페이지 정보
+	let pageNum = 1;
 	
 	// 댓글 전체 가져오기 호출
 	showList(1);
@@ -159,8 +163,11 @@ $(function(){
 				// 모달 숨기기
 				modal.modal("hide");
 				
-				// 리스트 호출
-				showList(1);
+				// 리스트 호출 - 페이지 나누기 전
+				// showList(1);
+				
+				// 페이지 나누기 후
+				showList(-1);
 			}
 		});
 	})
@@ -171,6 +178,13 @@ $(function(){
 		// page : page||1 => page 변수값이 들어오면 사용하고 안들어오면 1
 		replyService.getList({bno:bno, page:page||1},function(total,list){
 			// console.log(list);
+			// 새 댓글 등록 시
+			if(page == -1){
+				pageNum = Math.ceil(total/10.0);
+				showList(pageNum);
+				return;
+			}
+			
 			if(list == null || list.length == 0){
 				replyUl.html("");
 				return;
@@ -188,25 +202,125 @@ $(function(){
 				str += '</div></li>';
 			}
 			replyUl.html(str);
+			// 페이지 나누기를 위한 함수 호출
+			showReplyPage(total);
 		});
 	} // showList 종료
 	
+	// 댓글 페이지 나누기
+	// 제일 처음 쓴 댓글이 먼저 보이는 상황
+	function showReplyPage(total){
+		let endPage = Math.ceil(pageNum/10.0)*10;
+		let startPage = endPage - 9;
+		let prev = (startPage != 1);
+		let next = false;
+		
+		if(endPage * 10 >= total) {
+			endPage = Math.ceil(total/10.0);
+		}
+		
+		if(endPage * 10 < total){
+			next = true;
+		}
+		
+		let str = '<ul class="pagination pull-right">';
+		if(prev){
+			str += '<li class="paginate_button previous">';	
+			str += '<a href="'+(startPage-1)+'">Previous</a></li>';
+		}
+		
+		for(let i=startPage; i<=endPage; i++){
+			let active = pageNum==i? 'active':'';
+			str += '<li class="paginate_button '+active+'">';
+			str += '<a href="'+i+'       ">'+i+'</a></li>';
+			
+		}
+		if(next){
+			str += '<li class="paginate_button next">';
+			str += '<a href="'+(endPage+1)+'">Next</a></li>';
+		}
+		str += '</ul>';
+		
+		pageFooter.html(str);
+	}
+	
+	// 댓글 페이지 나누기 클릭 시
+	pageFooter.on("click","li a",function(e){
+		e.preventDefault();
+		
+		pageNum = $(this).attr("href");
+		showList(pageNum);
+	})
+
+	// 댓글 클릭 이벤트 - 이벤트 위임(chat을 이용해 이벤트를 걸고
+	// 실제 이벤트의 대상은 li 태그가 되는 형태)
+	
+	$(".chat").on("click","li",function(){
+		
+		// 사용자가 클릭한 li 안의 rno 값을 가져오기
+		let rno = $(this).data("rno");
+		
+		replyService.get(rno,function(data){
+			console.log(data);
+			
+			// 도착한 댓글을 모달 창에 보여주기
+			modalInputReply.val(data.reply);
+			modalInputReplyer.val(data.replyer);
+			modalInputReplyDate.val(replyService.displayTime(data.replydate))
+							   .attr("readonly","readonly");
+			
+			// rno 값을 추가
+			modal.data("rno",data.rno);
+			
+			// 닫기 버튼 제외한 모든 버튼 숨긴 후 수정, 삭제버튼 보여주기
+			modal.find("button[id!='modalCloseBtn']").hide();
+			modal.find("#modalModBtn").show();
+			modal.find("#modalRemoveBtn").show();
+			
+			modal.modal("show");
+		})
+	})
+	
+	$("#modalRemoveBtn").click(function(){
+		replyService.remove(modal.data("rno"),function(result){
+			if(result){
+				alert(result);
+				
+				modal.modal("hide");
+				// 리스트 보여주기
+				// showList(1);
+				showList(pageNum);
+			}
+		})
+	})
+	
+	$("#modalModBtn").click(function(){
+		
+		let reply={
+			rno:modal.data("rno"), 
+			reply:modalInputReply.val(),
+		};
+			
+		replyService.update(reply,function(result){
+			if(result){
+				alert(result);
+				
+				// 수정 성공시 모달 닫기
+				modal.modal("hide");
+				
+				// 리스트 보여주기
+				// showList(1);
+				showList(pageNum);
+			}
+		})
+
+	})
 	
 	
 /*	replyService.get(10,function(data){
 		console.log(data);
 	});*/
 	
-	/*replyService.update({rno:6, reply:"댓글 수정 중..."},function(result){
-		if(result){
-			alert(result);
-		}
-	});*/
 	
-	/*replyService.remove(5,function(result){
-		if(result){
-			alert(result);
-		}
-	});*/
 	
 })

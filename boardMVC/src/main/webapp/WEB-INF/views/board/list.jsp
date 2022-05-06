@@ -37,7 +37,10 @@ pageEncoding="UTF-8"%>
          	 <c:forEach var="dto" items="${list}">
 				<tr><!-- 리스트 목록 보여주기 -->
 					<td class='text-center'>${dto.bno}</td><!--번호-->
-					<td class='text-center'><a href="${dto.bno}" class="move">${dto.title}</a></td>
+					<td>
+						<a href="${dto.bno}" class="move">${dto.title}</a>
+						<strong>[${dto.replycnt}]</strong>
+					</td>
 					<td class='text-center'>${dto.writer}</td><!--작성자-->
 					<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${dto.regDate}" /></td><!--날짜-->
 					<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${dto.updateDate}" /></td><!--날짜-->
