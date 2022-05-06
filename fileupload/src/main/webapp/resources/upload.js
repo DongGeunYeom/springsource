@@ -13,9 +13,7 @@ $(function(){
 		console.log(inputFile);
 		
 		let files = inputFile[0].files;
-		
-		console.log(files);
-		
+
 		// 폼 객체에 첨부파일들 추가
 		for(let i=0;i<files.length;i++){
 			formData.append("uploadFile",files[i])
@@ -55,11 +53,8 @@ $(function(){
 				str += "<li>"+obj.fileName+"</li>";
 			}else{ // txt 파일
 				str += "<li><img src='/resources/img/attach.png'><div>"+obj.fileName+"</div></li>";
-			}
-			
+			}	
 		});
-		
 		uploadResult.append(str);
 	} // showUploadFile 종료
-	
 })

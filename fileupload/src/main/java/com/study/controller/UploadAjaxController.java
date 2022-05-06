@@ -81,13 +81,11 @@ public class UploadAjaxController {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}	
-		}
-				
+		}	
 		return new ResponseEntity<List<AttachDTO>>(attachList, HttpStatus.OK);
 	}
 	
 	// 이미지 파일 여부 확인
-	
 	private boolean checkImageType(File file) {
 		try {
 			String contentType = Files.probeContentType(file.toPath());
