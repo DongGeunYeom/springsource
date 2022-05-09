@@ -34,12 +34,6 @@ import net.coobird.thumbnailator.Thumbnailator;
 @Controller
 public class UploadAjaxController {
 	
-	@GetMapping("/uploadAjax")
-	public String uploadAjaxForm() {
-		log.info("ajax 업로드 폼 요청");
-		return "uploadform_ajax";
-	}
-	
 	@PostMapping("/uploadAjax")
 	public ResponseEntity<List<AttachDTO>> uploadAjaxPost(MultipartFile[] uploadFile) {
 		log.info("ajax 업로드 요청");
@@ -78,7 +72,6 @@ public class UploadAjaxController {
 			save = new File(uploadPath, uploadFileName);
 			try {
 			
-				
 				if(checkImageType(save)) {
 					attachDto.setFileType(true);
 					
@@ -123,7 +116,6 @@ public class UploadAjaxController {
 		return image;
 	}
 
-	
 	// 이미지 파일 여부 확인
 	private boolean checkImageType(File file) {
 		try {
@@ -146,12 +138,10 @@ public class UploadAjaxController {
 		
 		// windows:\ , unix : / => // "2022\5\06\"
 		return str.replace("-",File.separator);
-		
 	}
 	
-	
 	@GetMapping(path = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-	// 다운로드(이미지, 텍스트, 비디오... + 상태코드)ㅁ
+	// 다운로드(이미지, 텍스트, 비디오... + 상태코드)
 	public ResponseEntity<Resource> downliadFile(String fileName){
 		log.info("다운로드 요청 "+fileName);
 		

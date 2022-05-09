@@ -1,5 +1,5 @@
 /**
- * list.jsp 스크립트
+ * read.jsp 스크립트
  */
 $(function(){
 	
@@ -20,5 +20,16 @@ $(function(){
 	// modify 버튼 클릭시 operForm 이동
 	$(".btn-default").click(function(){
 		operForm.submit();
+	})
+	
+	// 첨부파일 가져오기 - 무조건 실행
+	$.getJSON({
+		url:'getAttachList',
+		data:{
+			bno:bno
+		},
+		success:function(data){
+			console.log(data);
+		}	
 	})
 })

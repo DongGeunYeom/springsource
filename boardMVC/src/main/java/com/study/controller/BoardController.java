@@ -3,6 +3,8 @@ package com.study.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.study.dto.AttachDTO;
 import com.study.dto.BoardDTO;
 import com.study.dto.Criteria;
 import com.study.dto.PageDTO;
@@ -45,21 +48,22 @@ public class BoardController {
 	// post
 	@PostMapping("/register")
 	public String registerPost(BoardDTO insertDto, Criteria cri, RedirectAttributes rttr) {
-		log.info("글 작성 서비스 요청",insertDto);
+		log.info("글 작성 서비스 요청 "+insertDto);
+		
 		try {
-			if(service.write(insertDto)) {
-				rttr.addFlashAttribute("result", insertDto.getBno());
-				rttr.addAttribute("pageNum", cri.getPageNum());
-				rttr.addAttribute("amount", cri.getAmount());
-				rttr.addAttribute("type", cri.getType());
-				rttr.addAttribute("keyword", cri.getKeyword());
-				return "redirect:/board/list";
-			}
+			service.write(insertDto);
+			
+			rttr.addAttribute("pageNum", cri.getPageNum());
+			rttr.addAttribute("amount", cri.getAmount());
+			rttr.addAttribute("type", cri.getType());
+			rttr.addAttribute("keyword", cri.getKeyword());
+			rttr.addFlashAttribute("result", insertDto.getBno());
+				
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "redirect:/board/register";
 		}
-		return "redirect:/board/register";	
+		return "redirect:/board/list";		
 	}
 	
 	// /board/read + bno
@@ -118,6 +122,14 @@ public class BoardController {
 			return "redirect:/board/modify";
 		}
 		return	"redirect:/board/modify";
+	}
+	
+	//첨부파일 가져오기
+	@GetMapping("/getAttachList")
+	public ResponseEntity<List<AttachDTO>> getAttachList(int bno){
+		log.info("첨부파일 가져오기 "+bno);
+		
+		return new ResponseEntity<List<AttachDTO>>(service.attachList(bno), HttpStatus.OK);
 	}
 	
 }

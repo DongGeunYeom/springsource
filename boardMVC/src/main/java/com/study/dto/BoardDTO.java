@@ -1,6 +1,7 @@
 package com.study.dto;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -13,5 +14,7 @@ public class BoardDTO {
 	private Date regDate;
 	private Date updateDate;
 	private int replycnt;
-
+	
+	// 첨부파일 정보
+	private List<AttachDTO> attachList;
 }
