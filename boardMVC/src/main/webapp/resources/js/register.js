@@ -22,13 +22,12 @@ $(function(){
 	})
 	
 	// x 버튼 클릭시 첨부 파일 삭제
-	// 첨부파일 삭제(x 동작)
 	$(".uploadResult").on("click","button",function(){
 		// button 태그의 data- 속성 가져오기
 		let targetFile = $(this).data("file");
 		let type = $(this).data("type");
 		
-		// span의 li 태그 가져오기
+		// button 태그의 li 태그 가져오기
 		let targetLi = $(this).closest("li");
 		
 		$.ajax({

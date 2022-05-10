@@ -110,6 +110,9 @@ create table spring_attach(
 );
 
 alter table spring_attach add constraint pk_attach primary key(uuid);
-alter table spring_attach add constraint fk_attach_attach foreign key(bno) references spring_board(bno);
+alter table spring_attach add constraint fk_board_attach foreign key(bno) references spring_board(bno);
 
 select * from spring_attach;
+delete from spring_attach where bno=863;
+
+

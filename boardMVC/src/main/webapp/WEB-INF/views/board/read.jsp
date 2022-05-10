@@ -47,9 +47,6 @@
 		<div class="panel panel-default">
 			<div class="panel-heading"><i class="fa fas fa-file"></i>첨부파일</div>
 			<div class="panel-body">
-				<div class="form-group uploaddiv">
-					<input type="file" name="uploadFile" id="" multiple/>
-				</div>
 				<div class="uploadResult">
 					<ul><!-- 첨부파일정보 --></ul>
 				</div>

@@ -17,4 +17,5 @@ public class BoardDTO {
 	
 	// 첨부파일 정보
 	private List<AttachDTO> attachList;
+
 }

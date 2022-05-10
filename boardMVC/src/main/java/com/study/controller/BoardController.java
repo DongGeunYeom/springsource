@@ -1,5 +1,9 @@
 package com.study.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,23 +109,24 @@ public class BoardController {
 	public String remove(int bno, Criteria cri, RedirectAttributes rttr) {
 		log.info("게시물 삭제 요청 "+bno);
 		log.info("게시물 삭제 요청-cri"+cri);
-		try {
-			if(service.remove(bno)) {
-				// 세션 이용하는 방식
-				rttr.addFlashAttribute("result", "success");
+	
+		// 서버 폴더에 저장한 첨부 파일 삭제
+		// bno에 해당하는 첨부 리스트 가져오기
+		List<AttachDTO> attachList = service.attachList(bno);
+		deleteFiles(attachList);
+		
+		// DB작업 - 게시글 삭제 + 첨부파일 삭제 + 댓글 삭제
+		service.remove(bno);
+		
+		// 주소 줄에 삽입하는 방식
+		rttr.addAttribute("pageNum", cri.getPageNum());
+		rttr.addAttribute("amount", cri.getAmount());
+		rttr.addAttribute("type", cri.getType());
+		rttr.addAttribute("keyword", cri.getKeyword());
 				
-				// 주소 줄에 삽입하는 방식
-				rttr.addAttribute("pageNum", cri.getPageNum());
-				rttr.addAttribute("amount", cri.getAmount());
-				rttr.addAttribute("type", cri.getType());
-				rttr.addAttribute("keyword", cri.getKeyword());
-				return "redirect:/board/list";
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "redirect:/board/modify";
-		}
-		return	"redirect:/board/modify";
+		// 세션 이용하는 방식
+		rttr.addFlashAttribute("result", "success");
+		return "redirect:/board/list";
 	}
 	
 	//첨부파일 가져오기
@@ -131,5 +136,34 @@ public class BoardController {
 		
 		return new ResponseEntity<List<AttachDTO>>(service.attachList(bno), HttpStatus.OK);
 	}
+	
+	private void deleteFiles(List<AttachDTO> attachList) {
+		log.info("폴더 내 첨부파일 삭제");
+		
+		if(attachList == null || attachList.size()<=0) {
+			return;
+		}
+		
+		for(AttachDTO attach:attachList) {
+			Path path = Paths.get("d:\\upload\\", attach.getUploadPath()+"\\"+attach.getUuid()+"_"+attach.getFileName());
+			
+			try {
+				// 일반파일, 원본이미지 삭제
+				Files.deleteIfExists(path);
+				
+				// Files.probeContentType(파일경로) : 확장자를 통해서 mime 타입을 판단
+				
+				if(Files.probeContentType(path).startsWith("image")) {
+					Path thumb = Paths.get("d:\\upload\\", attach.getUploadPath()+"\\s_"+attach.getUuid()+"_"+attach.getFileName());
+					// 썸네일 삭제
+					Files.delete(thumb);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
 	
 }
