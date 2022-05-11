@@ -3,6 +3,7 @@ package lambda;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 // 스트림 : 배열이나 컬렉션의 저장 요소를 하나씩 참조해서 람다식으로 처리할 수 있도록 해줌
@@ -19,8 +20,11 @@ public class StreamEx4 {
 		System.out.println(upperList);
 		
 		//stream 이용
-		Stream<String> stream = list.stream();
-		Stream<String> upper = stream.map(String::toUpperCase);
-		upper.forEach(s -> System.out.println(s));
+//		Stream<String> stream = list.stream();
+//		Stream<String> upper = stream.map(String::toUpperCase);
+//		upper.forEach(s -> System.out.println(s));
+		
+		List<String> upperList2 = list.stream().map(String::toUpperCase).collect(Collectors.toList());
+		System.out.println(upperList2);
 	}
 }
