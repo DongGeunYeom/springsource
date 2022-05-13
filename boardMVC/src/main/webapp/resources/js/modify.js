@@ -30,6 +30,7 @@ $(function(){
 			console.log(str);
 			
 			operForm.append(str);
+			
 		}else if(oper=="remove"){
 			operForm.attr('action', '/board/remove');
 		}else if(oper=="list"){

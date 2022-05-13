@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
+<%@taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@include file="../includes/header.jsp" %>
             <div class="row">
                 <div class="col-lg-12">
@@ -34,8 +34,15 @@
                 					<label>Writer</label>
                 					<input class="form-control" name="writer" value="${dto.writer}" readonly="readonly">                				
                 				</div>  
-                				<button type="button" class="btn btn-default">Modify</button>     			
-                				<button type="reset" class="btn btn-info">List</button>          			
+                				
+                				<sec:authentication property="principal" var="info"/>
+                				<sec:authorize access="isAuthenticated()">
+	                				<c:if test="${info.username == dto.writer}">
+	                					<button type="button" class="btn btn-default">Modify</button>
+	                				</c:if>		
+                				</sec:authorize>
+                				<button type="reset" class="btn btn-info">List</button>
+                				          			
                 			</form>
                 		</div>
                 	</div>
@@ -64,7 +71,9 @@
 			<div class="panel-heading">
 				<i class="fa fa-comments fa-fw"></i>
 				Reply
-				<button id="addReplyBtn" class="btn btn-primary btn-xs pull-right">New Reply</button>
+				<sec:authorize access="isAuthenticated()">
+					<button id="addReplyBtn" class="btn btn-primary btn-xs pull-right">New Reply</button>
+				</sec:authorize>
 			</div>
 			<div class="panel-body">
 				<ul class="chat">
@@ -100,10 +109,12 @@
       		<label for="">내용</label>
       		<input type="text" name="reply" id="" class="form-control" placeholder="댓글 내용"/>
       	</div>
+      	
       	<div class="form-group">
       		<label for="">작성자</label>
-      		<input type="text" name="replyer" id="" class="form-control" placeholder="작성자"/>
+      		<input type="text" name="replyer" id="" class="form-control" placeholder="작성자" />
       	</div>
+      	
       	<div class="form-group">
       		<label for="">작성일</label>
       		<input type="text" name="replydate" id="" class="form-control" placeholder="작성일"/>
@@ -125,11 +136,23 @@
 	<input type="hidden" name="amount" value="${cri.amount}" />
 	<input type="hidden" name="type" value="${cri.type}" />
 	<input type="hidden" name="keyword" value="${cri.keyword}" />
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />			
 </form>
 <script>
 	// 현재 글 번호
 	let bno = ${dto.bno};
+	
+	// 로그인 사용자 가져오기
+	let replyer = null;
+	<sec:authorize access="isAuthenticated()">
+		replyer = '<sec:authentication property="principal.username"/>'
+	</sec:authorize>
+	
+	//csrf 토큰
+	let csrfHeaderName = "${_csrf.headerName}";
+	let csrfTokenValue = "${_csrf.token}";
 </script>
+
 <script src="/resources/js/read.js"></script>       
 <script src="/resources/js/reply.js"></script>      
 <script src="/resources/js/upload.js"></script>      

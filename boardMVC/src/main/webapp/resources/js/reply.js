@@ -10,6 +10,9 @@ let replyService = (function(){
 		$.ajax({
 			url:'/replies/new',
 			type:'post',
+			beforeSend:function(xhr){
+				xhr.setRequestHeader(csrfHeaderName,csrfTokenValue);
+			},
 			contentType:'application/json',
 			data:JSON.stringify(reply),
 			success:function(result){
@@ -52,6 +55,9 @@ let replyService = (function(){
 		$.ajax({
 			url:'/replies/'+reply.rno,
 			type:'put',
+			beforeSend:function(xhr){
+				xhr.setRequestHeader(csrfHeaderName,csrfTokenValue);
+			},
 			contentType:'application/json',
 			data:JSON.stringify(reply),
 			success:function(result){
@@ -62,11 +68,18 @@ let replyService = (function(){
 		})
 	} // update 종료
 	
-		function remove(rno,callback){
+		function remove(rno,replyer,callback){
 		
 		$.ajax({
 			url:'/replies/'+rno,
 			type:'delete',
+			beforeSend:function(xhr){
+				xhr.setRequestHeader(csrfHeaderName,csrfTokenValue);
+			},
+			contentType:'application/json',
+			data:JSON.stringify({
+				replyer:replyer
+			}),
 			success:function(result){
 				if(callback){
 					callback(result);
@@ -134,6 +147,9 @@ $(function(){
 	$("#addReplyBtn").click(function(){
 		// input 태그가 가지고 있는 val 지우기
 		modal.find("input").val("");
+		
+		//로그인 사용자 보여주기
+		modalInputReplyer.val(replyer).attr("readonly","readonly");
 		
 		//날짜 input 숨기기
 		modalInputReplyDate.closest("div").hide();
@@ -285,7 +301,20 @@ $(function(){
 	})
 	
 	$("#modalRemoveBtn").click(function(){
-		replyService.remove(modal.data("rno"),function(result){
+		//replyer 값을 가지고 있는지 확인
+		if(!replyer){
+			alert('로그인 한 후 삭제가 가능합니다.');
+			modal.modal('hide');
+			return;
+		}
+		// 로그인 사용자(replyer)와 댓글 작성자(modalInputReplyer)가 같은 사람인지 확인
+		if(modalInputReplyer.val()!=replyer){
+			alert('자신의 댓글만 삭제가 가능합니다.');
+			modal.modal('hide');
+			return;
+		}		
+		
+		replyService.remove(modal.data("rno"),replyer,function(result){
 			if(result){
 				alert(result);
 				
@@ -298,10 +327,23 @@ $(function(){
 	})
 	
 	$("#modalModBtn").click(function(){
+		//replyer 값을 가지고 있는지 확인
+		if(!replyer){
+			alert('로그인 한 후 수정가 가능합니다.');
+			modal.modal('hide');
+			return;
+		}
+		// 로그인 사용자(replyer)와 댓글 작성자(modalInputReplyer)가 같은 사람인지 확인
+		if(modalInputReplyer.val()!=replyer){
+			alert('자신의 댓글만 수정이 가능합니다.');
+			modal.modal('hide');
+			return;
+		}		
 		
 		let reply={
 			rno:modal.data("rno"), 
 			reply:modalInputReply.val(),
+			replyer:modalInputReplyer.val()
 		};
 			
 		replyService.update(reply,function(result){
@@ -318,12 +360,5 @@ $(function(){
 		})
 
 	})
-	
-	
-/*	replyService.get(10,function(data){
-		console.log(data);
-	});*/
-	
-	
-	
+
 })
