@@ -136,7 +136,7 @@ pageEncoding="UTF-8"%>
   </div>
 </div>
 <!-- 스크립트 -->
-<<script>
+<script>
 	//게시글 등록 성공 후 result 확인
 	let result = '${result}';
 </script>
