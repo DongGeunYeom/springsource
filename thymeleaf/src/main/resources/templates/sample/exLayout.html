@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<!-- header 조각 포함 
+		~{/경로/파일명::fragment 이름}
+	insert : 본래의 태그를 살리면서 삽입됨
+	replace : 전체가 들어오는 태그로 변경됨
+	-->
+	<div th:insert="~{/fragments/header::header}"></div>
+	
+	<h1>Contents 영역</h1>
+	
+	<div th:replace="~{/fragments/footer::footer}"></div>
+</body>
+</html>
