@@ -152,7 +152,7 @@ public class UploadAjaxController {
 	
 	@GetMapping(path = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	// 다운로드(이미지, 텍스트, 비디오... + 상태코드)ㅁ
-	public ResponseEntity<Resource> downliadFile(String fileName){
+	public ResponseEntity<Resource> downloadFile(String fileName){
 		log.info("다운로드 요청 "+fileName);
 		
 		Resource resource = new FileSystemResource("d:\\upload\\"+fileName);
